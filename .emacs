@@ -404,7 +404,7 @@ one extra step. Works with: arglist-cont."
 (add-hook 'js2-mode-hook 'ga-js2-mode-hook)
 
 ;; CoffeeScript configuration
-(add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
+(add-to-list 'load-path "~/.emacs.d/coffee-mode")
 (require 'coffee-mode)
 (defun coffee-custom ()
   "coffee-mode-hook"
