@@ -1,5 +1,5 @@
-FILES = ['.emacs', '.gitconfig', '.gitexcludes', '.zshenv', '.zshrc']
-DIRS = ['.emacs.d', '.zsh.d', '.hg']
+FILES = ['.emacs']
+DIRS = ['.emacs.d']
 HOME = File.expand_path("~/")
 
 desc "Cleans existing files and directories"

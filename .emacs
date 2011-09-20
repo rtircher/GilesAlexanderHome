@@ -80,9 +80,10 @@
   (interactive)
   (if (and (buffer-file-name) (buffer-modified-p))
       (save-buffer args)))
-(add-hook 'auto-save-hook 'save-buffer-if-visiting-file)
+;; (add-hook 'auto-save-hook 'save-buffer-if-visiting-file)
+;; (remove-hook 'auto-save-hook 'save-buffer-if-visiting-file)
 ;; And run auto-save frequently enough to be interesting
-(setq auto-save-interval 1)
+;; (setq auto-save-interval 1)
 
 (autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
 
@@ -401,6 +402,15 @@ one extra step. Works with: arglist-cont."
   (setq tab-width 2)
   (setq indent-tabs-mode nil))
 (add-hook 'js2-mode-hook 'ga-js2-mode-hook)
+
+;; CoffeeScript configuration
+(add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
+(require 'coffee-mode)
+(defun coffee-custom ()
+  "coffee-mode-hook"
+ (set (make-local-variable 'tab-width) 2))
+(add-hook 'coffee-mode-hook
+  '(lambda() (coffee-custom)))
 
 ;; Use markdown mode
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
