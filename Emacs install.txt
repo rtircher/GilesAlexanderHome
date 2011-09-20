@@ -1,7 +1,7 @@
 Install emacs:
 
 Download build from: http://emacsformacosx.com/
-
+OR
 Download and compile from:http://www.gnu.org/software/emacs/#Obtaining
 cd in folder
 $ ./configure --with-ns
