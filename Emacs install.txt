@@ -1,0 +1,21 @@
+Install emacs:
+
+Download build from: http://emacsformacosx.com/
+
+Download and compile from:http://www.gnu.org/software/emacs/#Obtaining
+cd in folder
+$ ./configure --with-ns
+$ make && make install
+
+
+
+Update .emacs and .emacs.d from Giles repo:
+clone repo: git clone git@github.com:rtircher/GilesAlexanderHome.git
+cd ~/Development/GilesAlexanderHome
+git fetch upstream
+git merge upstream/master
+rake
+git submodule init
+git submodule update
+git submodule sync
+cp -r .emacs.d ~/.emacs.d
