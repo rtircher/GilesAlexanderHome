@@ -160,7 +160,7 @@
  '(windmove-wrap-around t)
  '(js2-basic-offset 2)
  '(js2-bounce-indent-p t)
- '(js2-global-externs '("emb")))
+ '(js2-global-externs '("emb", "window")))
 (winner-mode 1)
 
 ;; Adjustments to the font lock colouring. Made manually rather than
