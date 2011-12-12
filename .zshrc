@@ -15,9 +15,28 @@ unsetopt beep
 bindkey -e
  # End of lines configured by zsh-newuser-install
 
+# Initialize Colors
 autoload -U colors && colors
-export PS1="%{$fg_bold[yellow]%}(%m:%~)[%h]
-$ %{$reset_color%}"
+
+# Allow for functions in the prompt.
+setopt PROMPT_SUBST
+
+# Autoload zsh functions.
+fpath=(~/.zsh.d/functions $fpath)
+autoload -U ~/.zsh.d/functions/*(:t)
+
+# Enable auto-execution of functions.
+typeset -ga preexec_functions
+typeset -ga precmd_functions
+typeset -ga chpwd_functions
+
+# Append git functions needed for prompt.
+preexec_functions+='preexec_update_git_vars'
+precmd_functions+='precmd_update_git_vars'
+chpwd_functions+='chpwd_update_git_vars'
+
+PROMPT=$'%{${fg[green]}%}[%h] %m:%~%B$(prompt_git_info)
+%{${fg[green]}%}>%b%{${fg[default]}%} '
 
 function ws () { cd $(ruby $NETPAGE_TOOLS/ws.rb $@); }
 function wsp () { ruby $NETPAGE_TOOLS/ws.rb $@ }
@@ -28,7 +47,8 @@ export CLOJURE_EXT=~/.clojure
 export PATH=$PATH:~/dev/github/clojure-contrib/launchers/bash
 
 # Aliases
-alias ls='ls -lFGH'
+alias ls='ls -FGH'
+alias ll='ls -la'
 alias man=pman
 alias ec=emacsclient
 alias clj=clj-env-dir
