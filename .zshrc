@@ -44,6 +44,7 @@ PROMPT=$'%{${fg[green]}%}[%h] %m:%~%B$(prompt_git_info)
 function ws () { cd $(ruby $NETPAGE_TOOLS/ws.rb $@); }
 function wsp () { ruby $NETPAGE_TOOLS/ws.rb $@ }
 # function pman () { $HOME/bin/pman.sh $@ }
+function my-cd() { cd $@ && rbenv version > /dev/null }
 
 # Clojure configuration
 export CLOJURE_EXT=~/.clojure
@@ -55,5 +56,8 @@ alias ll='ls -la'
 # alias man=pman
 alias ec=emacsclient
 alias clj=clj-env-dir
+alias cd=my-cd
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+# rbenv config
+eval "$(rbenv init -)"
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
