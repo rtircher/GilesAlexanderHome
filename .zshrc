@@ -43,7 +43,7 @@ PROMPT=$'%{${fg[green]}%}[%h] %m:%~%B$(prompt_git_info)
 
 function ws () { cd $(ruby $NETPAGE_TOOLS/ws.rb $@); }
 function wsp () { ruby $NETPAGE_TOOLS/ws.rb $@ }
-function pman () { $HOME/bin/pman.sh $@ }
+# function pman () { $HOME/bin/pman.sh $@ }
 
 # Clojure configuration
 export CLOJURE_EXT=~/.clojure
@@ -52,7 +52,7 @@ export PATH=$PATH:~/dev/github/clojure-contrib/launchers/bash
 # Aliases
 alias ls='ls -FGH'
 alias ll='ls -la'
-alias man=pman
+# alias man=pman
 alias ec=emacsclient
 alias clj=clj-env-dir
 
