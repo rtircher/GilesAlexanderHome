@@ -18,6 +18,9 @@ bindkey -e
 # Initialize Colors
 autoload -U colors && colors
 
+# ls colors
+export LSCOLORS=cxgxxxxxbxxxxxxxxxxxxx
+
 # Allow for functions in the prompt.
 setopt PROMPT_SUBST
 
