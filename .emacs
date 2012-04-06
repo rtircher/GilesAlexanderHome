@@ -34,15 +34,18 @@
 (add-to-list 'load-path "~/.emacs.d/slime")
 (add-to-list 'load-path "~/.emacs.d/midje-mode")
 (add-to-list 'load-path "~/.emacs.d/magit")
+(add-to-list 'load-path "~/.emacs.d/coffee-mode")
 ;; Load Ruby libraries
 (load-library "ruby-mode")
 (load-library "inf-ruby")
 (load-library "rubydb3x")
-(load "~/.emacs.d/nxhtml/autostart.el")
+;; (load "~/.emacs.d/nxhtml/autostart.el")
 ;; Load flyspell
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
 ;; Load js2 mode for improved javascript
 (autoload 'js2-mode "js2" nil t)
+(autoload 'paredit-mode "paredit"
+  "Minor mode for pseudo-structurally editing Lisp code." t)
 
 ;; Turn on linum-mode for every visited file
 (add-hook 'find-file-hook 'linum-mode)
@@ -64,6 +67,7 @@
 (require 'feature-mode)
 (require 'linum)
 (require 'magit)
+(require 'coffee-mode)
 
 ;; Clojure and Slime setup
 (require 'clojure-mode)
@@ -74,23 +78,27 @@
 (add-hook 'clojure-mode-hook 'midje-mode)
 (require 'slime)
 (slime-setup)
+(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
+(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
+(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
+(add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
+(add-hook 'clojure-mode-hook          (lambda () (paredit-mode +1)))
 
 (defun save-buffer-if-visiting-file (&optional args)
   "Save the current buffer only if it is visiting a file"
   (interactive)
   (if (and (buffer-file-name) (buffer-modified-p))
       (save-buffer args)))
-;; (add-hook 'auto-save-hook 'save-buffer-if-visiting-file)
-;; (remove-hook 'auto-save-hook 'save-buffer-if-visiting-file)
+(add-hook 'auto-save-hook 'save-buffer-if-visiting-file)
 ;; And run auto-save frequently enough to be interesting
-;; (setq auto-save-interval 1)
+(setq auto-save-interval 1)
 
 (autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
 
 ;; Set up my preferred color theme
 (color-theme-initialize)
 ;; (color-theme-charcoal-black)
-(color-theme-solarized-dark)
+(color-theme-solarized-light)
 
 (setq user-mail-address "giles.alexander@thoughtworks.com")
 
@@ -160,7 +168,7 @@
  '(windmove-wrap-around t)
  '(js2-basic-offset 2)
  '(js2-bounce-indent-p t)
- '(js2-global-externs '("emb", "window")))
+ '(js2-global-externs '("emb")))
 (winner-mode 1)
 
 ;; Adjustments to the font lock colouring. Made manually rather than
@@ -339,6 +347,9 @@ one extra step. Works with: arglist-cont."
 (global-set-key [(meta up)] 'windmove-up)
 (global-set-key [(meta down)] 'windmove-down)
 
+;; Global keys to operate with modes
+(global-set-key "\C-xg" 'magit-status)
+
 (defun remove-string-from-buffer (str)
   "Removes all occurences of the string STR from the current buffer."
   (interactive "MRemove string: ")
@@ -365,15 +376,15 @@ one extra step. Works with: arglist-cont."
 (yas/load-directory "~/.emacs.d/yasnippet-0.2.2/snippets/")
 
 ;; nXHtml mode configuration
-(setq
- nxhtml-global-minor-mode t
- nxhtml-skip-welcome t
- indent-region-mode t
- rng-nxml-auto-validate-flag nil
- nxml-degraded t
- nxml-child-indent 2)
-(add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo))
-(add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\)\\'" . nxml-mode))
+;; (setq
+;;  nxhtml-global-minor-mode t
+;;  nxhtml-skip-welcome t
+;;  indent-region-mode t
+;;  rng-nxml-auto-validate-flag nil
+;;  nxml-degraded t
+;;  nxml-child-indent 2)
+;; (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . eruby-nxhtml-mumamo))
+;; (add-to-list 'auto-mode-alist '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\)\\'" . nxml-mode))
 
 ;; Treat feature files as cucumbers
 (defun ga/feature-next-scenario ()
@@ -403,14 +414,12 @@ one extra step. Works with: arglist-cont."
   (setq indent-tabs-mode nil))
 (add-hook 'js2-mode-hook 'ga-js2-mode-hook)
 
-;; CoffeeScript configuration
-(add-to-list 'load-path "~/.emacs.d/coffee-mode")
-(require 'coffee-mode)
-(defun coffee-custom ()
-  "coffee-mode-hook"
- (set (make-local-variable 'tab-width) 2))
-(add-hook 'coffee-mode-hook
-  '(lambda() (coffee-custom)))
+;; CoffeeScript mode configuration
+(defun ga-coffee-mode-hook ()
+  (ga-tab-fix)
+  (setq tab-width 2)
+  (setq indent-tabs-mode nil))
+(add-hook 'coffee-mode-hook 'ga-coffee-mode-hook)
 
 ;; Use markdown mode
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
